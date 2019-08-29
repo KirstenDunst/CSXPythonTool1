@@ -57,7 +57,7 @@ def resource_json(hf_settings, device_source):
 			if filename == '.DS_Store':
 				os.remove(file_path)
 			elif filename in ['resource-bundle.manifest', 'last-commit', 'www.zip']:
-				print('不计入资源完备文件的md5值')
+				print(filename + '：不计入资源完备文件的md5值')
 			else:
 				checksum_json[relative_path] = md5.get_file_md5(file_path)
 
