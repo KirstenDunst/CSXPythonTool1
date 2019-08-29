@@ -51,7 +51,7 @@ def hotfix_run():
 		exit()
 	else :
 		exit('输入不合法，请重新运行main.py重新开始')
-	print('当前打包www的环境：' + page_envir +'/n执行脚本script名称：' + script_name)
+	print('当前打包www的环境：' + page_envir +'\n执行脚本script名称：' + script_name)
 
 	#记录打包版本号
 	app_version = input('要打包版本号？eg:0.0.1。或输入Q退出：')
