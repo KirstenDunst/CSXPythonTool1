@@ -23,6 +23,7 @@ class Differ_name():
 		return 'ios-www.zip' if (self.device_source) else 'www.zip'
 
 	def get_add_h5path(self):
+		#获取h5项目打包出来的www包路径基于跟路径的差异化补充
 		return '' if (self.device_source) else '/platforms/android/assets'
 
 
