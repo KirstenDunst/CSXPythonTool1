@@ -4,7 +4,7 @@ import os
 import shutil
 import md5_file as md5
 import www_oss as oss_tool
-import hotfix_function as hotfix_tool
+import access_infor as information_access
 
 from os.path import realpath
 from settings import Settings
@@ -17,18 +17,18 @@ def hotfix_run():
 
 	hf_settings = Settings()
 	#记录打包对象时iOS还是安卓（True是iOS）
-	device_source = hotfix_tool.get_packaging_type()
+	device_source = information_access.get_packaging_type()
 
 	#初始化区别值对象
 	differ_file_name = Differ_name(device_source)
 	print('当前的打包对象：' + differ_file_name.get_source_type() + '\n')
 
-	envir_dir_name = hotfix_tool.get_packaging_enviorment()
-	script_name = hotfix_tool.get_packaging_script_name(device_source, envir_dir_name, hf_settings)
+	envir_dir_name = information_access.get_packaging_enviorment()
+	script_name = information_access.get_packaging_script_name(device_source, envir_dir_name, hf_settings)
 	print('当前打包www的环境：' + envir_dir_name +'\n执行脚本script名称：' + script_name)
 
 	#记录打包版本号
-	app_version = hotfix_tool.get_packaging_version()
+	app_version = information_access.get_packaging_version()
 	print('当前打包的版本号：' + app_version)
 
 	#取当前目录上一级目录（热更新的资源文件夹就和这一路径平级逐步往下）
