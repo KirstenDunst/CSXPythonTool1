@@ -11,29 +11,28 @@ from os.path import realpath
 from settings import Settings
 
 
-def gen_tool(file_path, device_source):
+def gen_tool(file_path, differ_file_name):
 	"""执行www包文件的md5资源文件以及压缩包处理"""
 	hf_settings = Settings()
 
 	try:
-		page_json(file_path, hf_settings, device_source)
+		page_json(file_path, hf_settings, differ_file_name)
 	except Exception as e:
 		raise e
 	finally:
-		oss_resource(file_path, hf_settings, device_source)
+		oss_resource(file_path, hf_settings, differ_file_name)
 
 
-def page_json(file_path, hf_settings, device_source):
+def page_json(file_path, hf_settings, differ_file_name):
 	"""总配"""
 	object_json = {}
 	object_json['type'] = hf_settings.bundleType
 	object_json['entry'] = 'index.html'
-	object_json['checksum'] = resource_json(hf_settings, device_source)
+	object_json['checksum'] = resource_json(hf_settings, differ_file_name)
 	version_str = hf_settings.version + '.' + time.strftime("%Y%m%d%H%M%S", time.localtime())
 	object_json['version'] = version_str
 
-	android_add_file_path = hf_settings.h5_base_path if(device_source) else hf_settings.h5_base_path + '/platforms/android/assets'
-	file_name = android_add_file_path + '/www/' + 'resource-bundle.manifest'
+	file_name = hf_settings.h5_base_path +differ_file_name.get_add_h5path() + '/www/resource-bundle.manifest'
 	with open (file_name, 'w', encoding='utf-8') as f_obj:
 		json.dump(object_json, f_obj, ensure_ascii=False, indent=4)
 		print('保存资源文件成功')
@@ -41,11 +40,10 @@ def page_json(file_path, hf_settings, device_source):
 	portal_resource_json(file_path, hf_settings, version_str)
 
 
-def resource_json(hf_settings, device_source):
+def resource_json(hf_settings, differ_file_name):
 	"""内部资源清单"""
 	checksum_json = {}
-	android_add_file_path = hf_settings.h5_base_path if(device_source) else hf_settings.h5_base_path + '/platforms/android/assets'
-	file_dir = android_add_file_path + '/www'
+	file_dir = hf_settings.h5_base_path +differ_file_name.get_add_h5path() + '/www'
 	for parent, dirnames, filenames in os.walk(file_dir,  followlinks=True):
 		for filename in filenames:
 			#遍历所有的文件名filename
@@ -65,26 +63,24 @@ def resource_json(hf_settings, device_source):
 
 
 
-def oss_resource(file_path, hf_settings, device_source):
+def oss_resource(file_path, hf_settings, differ_file_name):
 	temp_path = file_path + '/Temp'
 	if not os.path.exists(temp_path):
 		#多级文件创建，保证文件路径存在
 		os.makedirs(temp_path)
 
-	zip_resource(temp_path, hf_settings, device_source)
-	oss_json(temp_path, hf_settings, device_source)
+	zip_resource(temp_path, hf_settings, differ_file_name)
+	oss_json(temp_path, hf_settings, differ_file_name)
 	
 
-def oss_json(file_path, hf_settings, device_source):
+def oss_json(file_path, hf_settings, differ_file_name):
 	"""生成资源文件"""
 	manifest_json = {}
-	zip_name_add = 'ios-www.zip' if (device_source) else 'www.zip'
-	zip_file_path = file_path + '/resource/assets/' + zip_name_add
+	zip_file_path = file_path + '/resource/assets/' + differ_file_name.get_zip_name()
 	manifest_json['bundleArchiveChecksum'] = md5.get_file_md5(zip_file_path)
-	android_add_file_path = hf_settings.h5_base_path if(device_source) else hf_settings.h5_base_path + '/platforms/android/assets'
-	bundle_file_path = android_add_file_path + '/www/resource-bundle.manifest'
+	bundle_file_path = hf_settings.h5_base_path +differ_file_name.get_add_h5path() + '/www/resource-bundle.manifest'
 	manifest_json['bundleManifestChecksum'] = md5.get_file_md5(bundle_file_path)
-	manifest_json['bundlePlatform'] = 'iOS' if (device_source) else 'Android'
+	manifest_json['bundlePlatform'] = differ_file_name.get_source_type()
 	manifest_json['bundleType'] = hf_settings.bundleType
 	manifest_json['desc'] = hf_settings.desc
 	manifest_json['forceUpdate'] = hf_settings.forceUpdate
@@ -92,21 +88,18 @@ def oss_json(file_path, hf_settings, device_source):
 	manifest_json['entireBundleUrl'] = 'http://' + str(get_host_ip()) + '/resource/assets/www.zip'
 	manifest_json['patchRootUrl'] = 'http://' + str(get_host_ip()) + '/resource/patch/'
 
-	file_name_add = '/ios-update-manifest.json' if (device_source) else '/android_portal_manifest.json'
-	file_name = file_path + file_name_add
+	file_name = file_path + '/' + differ_file_name.get_json_mainfest()
 	with open (file_name, 'w', encoding='utf-8') as f_obj:
 		json.dump(manifest_json, f_obj, ensure_ascii=False, indent=4)
 		print('保存资源文件成功')
 
 
-def zip_resource(file_path, hf_settings, device_source):
+def zip_resource(file_path, hf_settings, differ_file_name):
 	zip_file_path = file_path + '/resource/assets'
 	if not os.path.exists(zip_file_path):
 		#多级文件创建，保证文件路径存在
 		os.makedirs(zip_file_path)
-	android_add_file_path = hf_settings.h5_base_path if(device_source) else hf_settings.h5_base_path + '/platforms/android/assets'
-	zip_name_add = '/ios-www.zip' if (device_source) else '/www.zip'
-	dir_zip.zip_temp_dir(android_add_file_path + '/www', zip_file_path + zip_name_add)
+	dir_zip.zip_temp_dir(hf_settings.h5_base_path +differ_file_name.get_add_h5path() + '/www', zip_file_path + '/' + differ_file_name.get_zip_name())
 
 
 def portal_resource_json(file_path, hf_settings, version_str):
