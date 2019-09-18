@@ -94,7 +94,7 @@ def hotfix_run():
 	for number in range(0,current_number,1):
 		print('差量包生成文件夹次数：' + str(number))
 		old_zip_path = child_path + '/' + str(number) + '/resource/assets/' + differ_file_name.get_zip_name()
-		now_zip_path = last_path + '/resource/assets/' + zip_add_name
+		now_zip_path = last_path + '/resource/assets/' + differ_file_name.get_zip_name()
 		now_patch_path = last_path + '/resource/patch/' + md5.get_filemd5(old_zip_path) + '.patch'
 		os.system(bsdiff_path + ' ' + old_zip_path + ' ' + now_zip_path + ' ' + now_patch_path)
 
