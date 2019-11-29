@@ -1,5 +1,4 @@
 #引入一些常用的操作
-import self as self
 
 
 class Settings():

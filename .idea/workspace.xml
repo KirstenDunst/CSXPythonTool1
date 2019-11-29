@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe480380-38ee-405f-b756-dae4d9667564" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/auto_package_ios.py" beforeDir="false" afterPath="$PROJECT_DIR$/auto_package_ios.py" afterDir="false" />
-    </list>
+    <list default="true" id="fe480380-38ee-405f-b756-dae4d9667564" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +17,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/auto_package_ios.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
+            <state relative-caret-position="61">
               <caret line="103" column="107" selection-start-line="103" selection-start-column="107" selection-end-line="103" selection-end-column="107" />
               <folding>
                 <element signature="e#156#165#0" expanded="true" />
@@ -239,12 +237,12 @@
       <option name="presentableId" value="Default" />
       <updated>1574923426388</updated>
       <workItem from="1574923427883" duration="394000" />
-      <workItem from="1574923825782" duration="25245000" />
+      <workItem from="1574923825782" duration="25807000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25639000" />
+    <option name="totallyTimeSpent" value="26201000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="69" y="23" width="1314" height="857" extended-state="0" />
@@ -254,7 +252,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5320262" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.72287583" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -349,7 +347,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/auto_package_ios.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
+        <state relative-caret-position="61">
           <caret line="103" column="107" selection-start-line="103" selection-start-column="107" selection-end-line="103" selection-end-column="107" />
           <folding>
             <element signature="e#156#165#0" expanded="true" />
