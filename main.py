@@ -82,24 +82,25 @@ def hotfix_run(hf_settings, autoPackageios, envir_dir_name_ios, app_version_ios,
                 # 移动文件夹
                 shutil.move(cell_file, last_path)
 
-        if current_number == 0:
-            exit()
+        if current_number != 0:
+            # 获取包含py的文件夹位置
+            now_file_path = os.path.dirname(os.path.realpath(__file__))
+            # 可执行文件的拆分文件路径
+            bsdiff_path = now_file_path + '/' + 'bsdiff' + '/' + 'bsdiff'
+            if not os.path.exists(bsdiff_path):
+                os.system('cd' + ' ' + now_file_path + '/' + 'bsdiff' + ' && make')
 
-        # 获取包含py的文件夹位置
-        now_file_path = os.path.dirname(os.path.realpath(__file__))
-        # 可执行文件的拆分文件路径
-        bsdiff_path = now_file_path + '/' + 'bsdiff' + '/' + 'bsdiff'
-        if not os.path.exists(bsdiff_path):
-            os.system('cd' + ' ' + now_file_path + '/' + 'bsdiff' + ' && make')
+            # 循环差量包生成制作
+            for number in range(0, current_number, 1):
+                print('差量包生成文件夹次数：' + str(number))
+                old_zip_path = child_path + '/' + str(number) + '/resource/assets/' + differ_file_name.get_zip_name()
+                now_zip_path = last_path + '/resource/assets/' + differ_file_name.get_zip_name()
+                now_patch_path = last_path + '/resource/patch/' + md5.get_filemd5(old_zip_path) + '.patch'
+                # 差量包生成器
+                os.system(bsdiff_path + ' ' + old_zip_path + ' ' + now_zip_path + ' ' + now_patch_path)
+        else:
+            now_zip_path = child_path + '/0/resource/assets/' + differ_file_name.get_zip_name()
 
-        # 循环差量包生成制作
-        for number in range(0, current_number, 1):
-            print('差量包生成文件夹次数：' + str(number))
-            old_zip_path = child_path + '/' + str(number) + '/resource/assets/' + differ_file_name.get_zip_name()
-            now_zip_path = last_path + '/resource/assets/' + differ_file_name.get_zip_name()
-            now_patch_path = last_path + '/resource/patch/' + md5.get_filemd5(old_zip_path) + '.patch'
-            # 差量包生成器
-            os.system(bsdiff_path + ' ' + old_zip_path + ' ' + now_zip_path + ' ' + now_patch_path)
 
         if autoPackageios :
             # 处理好的压缩包移动替换项目操作
@@ -141,4 +142,3 @@ if __name__ == '__main__':
     else:
         # 单纯执行热更新
         hotfix_run(hf_settings, False, '', '', '', '', '', '')
-
