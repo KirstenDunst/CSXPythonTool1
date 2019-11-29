@@ -140,5 +140,5 @@ if __name__ == '__main__':
 
     else:
         # 单纯执行热更新
-        hotfix_run(hf_settings, False, '', '', '', '')
+        hotfix_run(hf_settings, False, '', '', '', '', '', '')
 
