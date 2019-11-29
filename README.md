@@ -1,2 +1,5 @@
 # CSXPythonTool1
 用于app热更新生成差量包以及全量包的配置工具
+
+补充添加ios自动化打包操作：auto_package_ios
+代码分支切换操作：git_branch_change
