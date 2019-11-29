@@ -46,8 +46,8 @@ class AutoArchive(object):
     def clean(self, hf_settings, project_name, description, zip_base_path, now_page_number, package_envior):
         print("\n\n===========开始clean操作===========")
         start = time.time()
-        clean_command = 'xcodebuild clean -workspace %s/%s.xcworkspace -scheme %s -configuration ' + package_envior % (
-            hf_settings.project_base_path, project_name, project_name)
+        clean_command = 'xcodebuild clean -workspace %s/%s.xcworkspace -scheme %s -configuration %s' % (
+            hf_settings.project_base_path, project_name, project_name, package_envior)
         clean_command_run = subprocess.Popen(clean_command, shell=True)
         clean_command_run.wait()
         end = time.time()
@@ -69,8 +69,8 @@ class AutoArchive(object):
             time.sleep(1)
 
             start = time.time()
-            archive_command = 'xcodebuild archive -workspace %s/%s.xcworkspace -scheme %s -configuration ' + package_envior + ' -archivePath %s/%s' % (
-                hf_settings.project_base_path, project_name, project_name, hf_settings.project_base_path,
+            archive_command = 'xcodebuild archive -workspace %s/%s.xcworkspace -scheme %s -configuration %s -archivePath %s/%s' % (
+                hf_settings.project_base_path, project_name, project_name, package_envior, hf_settings.project_base_path,
                 hf_settings.export_directory)
             archive_command_run = subprocess.Popen(archive_command, shell=True)
             archive_command_run.wait()
